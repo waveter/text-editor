@@ -12,8 +12,10 @@ import "froala-editor/css/froala_editor.pkgd.min.css";
 import "froala-editor/css/third_party/embedly.min.css";
 import "froala-editor/css/plugins/fullscreen.min.css";
 
-import Froala from "react-froala-wysiwyg";
-import FroalaEditorView from "react-froala-wysiwyg/FroalaEditorView";
+import "font-awesome/css/font-awesome.min.css";
+
+import Froala from "froala-editor";
+import FroalaEditor from "react-froala-wysiwyg";
 
 class TextEditor extends React.Component {
   constructor() {
@@ -33,10 +35,42 @@ class TextEditor extends React.Component {
     });
   }
 
+  handleUploadFile() {}
+
+  handleDownloadFile() {}
+
   render() {
+    Froala.DefineIcon("upload", {
+      FA5NAME: "upload",
+      template: "font_awesome_5r"
+    });
+    Froala.RegisterCommand("upload", {
+      title: "Upload",
+      icon: "upload",
+      focus: true,
+      undo: false,
+      refreshAfterCallback: true,
+      callback: () => {
+        this.handleUploadFile();
+      }
+    });
+    Froala.DefineIcon("download", {
+      FA5NAME: "download",
+      template: "font_awesome_5r"
+    });
+    Froala.RegisterCommand("download", {
+      title: "Download",
+      icon: "download",
+      focus: true,
+      undo: false,
+      refreshAfterCallback: true,
+      callback: () => {
+        this.handleDownloadFile();
+      }
+    });
     return (
       <div className="body-container">
-        <Froala
+        <FroalaEditor
           model={this.state.model}
           onModelChange={this.handleModelChange}
           tag="textarea"
@@ -50,12 +84,12 @@ class TextEditor extends React.Component {
                   "italic",
                   "underline",
                   "strikeThrough",
-                  "subscript",
-                  "superscript",
                   "fontFamily",
                   "fontSize",
                   "textColor",
                   "backgroundColor",
+                  "subscript",
+                  "superscript",
                   "inlineClass",
                   "inlineStyle",
                   "clearFormatting"
@@ -66,7 +100,6 @@ class TextEditor extends React.Component {
                 buttons: [
                   "alignLeft",
                   "alignCenter",
-                  "formatOLSimple",
                   "alignRight",
                   "alignJustify",
                   "formatOL",
@@ -78,7 +111,7 @@ class TextEditor extends React.Component {
                   "indent",
                   "quote"
                 ],
-                buttonsVisible: 5
+                buttonsVisible: 6
               },
               moreRich: {
                 buttons: [
@@ -93,12 +126,14 @@ class TextEditor extends React.Component {
                   "insertFile",
                   "insertHR"
                 ],
-                buttonsVisible: 5
+                buttonsVisible: 6
               },
               moreMisc: {
                 buttons: [
                   "undo",
                   "redo",
+                  "upload",
+                  "download",
                   "fullscreen",
                   "print",
                   "getPDF",
@@ -108,7 +143,7 @@ class TextEditor extends React.Component {
                   "help"
                 ],
                 align: "right",
-                buttonsVisible: 5
+                buttonsVisible: 4
               }
             },
             pluginsEnabled: [

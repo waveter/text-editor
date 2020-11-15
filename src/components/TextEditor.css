@@ -1,6 +1,11 @@
 .body-container {
     min-height: calc(100vh - 128px);
     background-color:  #f1f1f1;
+    /* display:flex; */
+}
+
+.fr-box.fr-basic .fr-wrapper > .fr-element.fr-view {
+    min-height: calc(100vh - 181px);
 }
 
 .markdown-editor {
@@ -36,4 +41,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.fa-upload, .fa-download {
+    font-family: FontAwesome;
+    font-style: unset;
 }
