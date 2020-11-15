@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.main-body {
+  background-color: #f9f4cb;
+}
+
+.react-mde .mde-header .mde-tabs {
+  display: none;
+}
