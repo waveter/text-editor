@@ -44,3 +44,11 @@
 .react-mde .mde-header .mde-tabs {
   display: none;
 }
+
+.fr-wrapper div:not(.fr-element) {
+  display: none !important;
+}
+
+.fr-second-toolbar {
+  display: none !important;
+}
