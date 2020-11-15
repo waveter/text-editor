@@ -22,7 +22,8 @@ class TextEditor extends React.Component {
     super();
 
     this.handleModelChange = this.handleModelChange.bind(this);
-
+    this.handleUploadFile = this.handleUploadFile.bind(this);
+    this.handleDownloadFile = this.handleDownloadFile.bind(this);
     this.state = {
       model: "<h1>Example text</h1>"
     };
@@ -35,9 +36,32 @@ class TextEditor extends React.Component {
     });
   }
 
-  handleUploadFile() {}
+  handleUploadFile(e) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      this.setState({
+        model: e.target.result
+      });
+    };
+    reader.readAsText(e.target.files[0]);
+  }
 
-  handleDownloadFile() {}
+  handleDownloadFile() {
+    this.saveFile("download.html", this.state.model);
+  }
+
+  saveFile(fileName, content) {
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.download = fileName;
+    link.href = url;
+    link.click();
+  }
+
+  handleOpenUploadFile() {
+    document.getElementById("file").click();
+  }
 
   render() {
     Froala.DefineIcon("upload", {
@@ -51,7 +75,7 @@ class TextEditor extends React.Component {
       undo: false,
       refreshAfterCallback: true,
       callback: () => {
-        this.handleUploadFile();
+        this.handleOpenUploadFile();
       }
     });
     Froala.DefineIcon("download", {
@@ -70,6 +94,12 @@ class TextEditor extends React.Component {
     });
     return (
       <div className="body-container">
+        <input
+          type="file"
+          id="file"
+          style={{ display: "none" }}
+          onChange={e => this.handleUploadFile(e)}
+        />
         <FroalaEditor
           model={this.state.model}
           onModelChange={this.handleModelChange}
